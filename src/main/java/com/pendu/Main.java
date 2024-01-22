@@ -10,7 +10,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         // Lancer le jeu du pendu ici !
-        String wordsPath = "/resource/words.txt";
+        String wordsPath = "src/main/java/com/pendu/resource/words.txt";
         List<String> wordsToFind = new ArrayList<>();
         String eachLine;
 
@@ -25,8 +25,8 @@ public class Main {
         }
 
         //Test du tableau
-        for (int i = 0; i < eachLine.length(); i++) {
-            System.out.println(eachLine);
+        for (String wordTest : wordsToFind) {
+            System.out.println(wordTest);
         }
     }
 }
