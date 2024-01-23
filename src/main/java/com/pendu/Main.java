@@ -1,17 +1,35 @@
 package com.pendu;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         // Lancer le jeu du pendu ici !
+
+        Scanner clavier = new Scanner(System.in);
+        System.out.println("Bonjour ! Quel est ton prénom ?");
+        String prenom = clavier.nextLine();
+        System.out.println("Bonjour " + prenom + " ! Enchanté !");
+        System.out.println("------");
+
+        String hiddenWord = getString();
+        System.out.println("Mot à trouver : " + "-".repeat(hiddenWord.length()));
+
+        int life = 10;
+        int foundLetters = 0;
+
+        while (life > 0 && foundLetters < hiddenWord.length()) {
+            Scanner letterGuessed = new Scanner(System.in);
+        }
+    }
+
+    private static String getString() {
         String wordsPath = "src/main/java/com/pendu/resource/words.txt";
         List<String> wordsToFind = new ArrayList<>();
         String eachLine;
@@ -28,21 +46,6 @@ public class Main {
 
         int randomInt = random.nextInt(30);
 
-        //Test du tableau
-        String testWordsToFind = wordsToFind.get(randomInt);
-        for (String wordTest : wordsToFind) {
-            System.out.println(wordTest);
-        }
-
-        System.out.println("------");
-        System.out.println(testWordsToFind);
-        int count = 0;
-
-        for (int i = 0; i < testWordsToFind.length(); i++) {
-            if (testWordsToFind.charAt(i) != ' ') {
-                count++;
-            }
-        }
-        System.out.println("Nombre total de caractères du mot-mystère : " + count);
+        return wordsToFind.get(randomInt);
     }
 }
