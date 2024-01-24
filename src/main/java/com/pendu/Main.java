@@ -9,10 +9,9 @@ package com.pendu;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+
+
 
 public class Main {
     public static void main(String[] args) {
@@ -26,7 +25,6 @@ public class Main {
 
         String hiddenWord = getString();
         System.out.println(" ");
-        System.out.println(hiddenWord);
         String hyphen = "-".repeat(hiddenWord.length());
         System.out.println("Mot à trouver : " + hyphen);
         System.out.println(" ");
@@ -47,24 +45,32 @@ public class Main {
             System.out.println("Entrez une lettre : ");
             String letterGuessed = scanner.nextLine();
 
-            if (letterGuessed.matches("[a-z]")) {
-                int verificationGuessedLetter = hiddenWord.indexOf(letterGuessed);
+            HashSet<String> lettersAlreadyGuessed = new HashSet<>();
 
-                if (verificationGuessedLetter == -1) {
-                    System.out.println("Perdu ! Malheureusement, " + letterGuessed + " n'est pas une bonne lettre !");
-                    life--;
+            if (lettersAlreadyGuessed.add(letterGuessed)) {
+                if (letterGuessed.matches("[a-z]")) {
+                    int verificationGuessedLetter = hiddenWord.indexOf(letterGuessed);
+
+                    if (verificationGuessedLetter == -1) {
+                        System.out.println("Perdu ! Malheureusement, " + letterGuessed + " n'est pas une bonne lettre !");
+                        life--;
+                        lettersAlreadyGuessed.add(letterGuessed);
+                    } else {
+                        System.out.println("Bravo ! " + letterGuessed + " est une bonne lettre !");
+                        foundLetters++;
+                        remainingLetters = hiddenWord.length() - foundLetters;
+                        System.out.println("Il vous reste " + remainingLetters + " lettres à trouver !");
+                        lettersAlreadyGuessed.add(letterGuessed);
+                    }
+
+                } else if (letterGuessed.matches("[A-Z]")) {
+                    System.out.println("Il n'y a aucune lettre majuscule.");
+
                 } else {
-                    System.out.println("Bravo ! " + letterGuessed + " est une bonne lettre !");
-                    foundLetters++;
-                    remainingLetters = hiddenWord.length() - foundLetters;
-                    System.out.println("Il vous reste " + remainingLetters + " lettres à trouver !");
+                    System.out.println(letterGuessed + " n'est pas une lettre de l'alphabet latin.");
                 }
-
-            } else if (letterGuessed.matches("[A-Z]")) {
-                System.out.println("Il n'y a aucune lettre majuscule.");
-
             } else {
-                System.out.println(letterGuessed + " n'est pas une lettre de l'alphabet latin.");
+                System.out.println("La lettre " + letterGuessed + " a déjà été demandée !");
             }
         }
 
