@@ -19,20 +19,21 @@ public class Main {
         System.out.println("Quel est ton prénom ?");
         String prenom = clavier.nextLine();
         System.out.println("Bonjour " + prenom + " ! Enchanté !");
-        System.out.println("------");
+        System.out.println("-+-+-+-");
 
         String hiddenWord = getString();
         System.out.println(" ");
         String hyphen = "-".repeat(hiddenWord.length());
-        System.out.println("Mot à trouver : " + hyphen);
-        System.out.println(" ");
+
 
         int life = 10;
         int foundLetters = 0;
         int remainingLetters;
         List<String> lettersAlreadyGuessed = new ArrayList<>();
 
-        while (life > 0 && foundLetters < hiddenWord.length()) {
+        while (life > 0 && hyphen.contains("-")) {
+
+            System.out.println("Mot à trouver : " + hyphen + "\n");
             Scanner scanner = new Scanner(System.in);
 
             if (life > 1) {
@@ -44,7 +45,7 @@ public class Main {
             System.out.println("Entrez une lettre : ");
             String letterGuessed = scanner.nextLine();
 
-            if (lettersAlreadyGuessed.contains(letterGuessed) == false) {
+            if (!lettersAlreadyGuessed.contains(letterGuessed)) {
                 if (letterGuessed.matches("[a-z]")) {
                     int verificationGuessedLetter = hiddenWord.indexOf(letterGuessed);
 
@@ -54,15 +55,19 @@ public class Main {
                         lettersAlreadyGuessed.add(letterGuessed);
                     } else {
                         System.out.println("Bravo ! " + letterGuessed + " est une bonne lettre !");
-                        foundLetters++;
-                        remainingLetters = hiddenWord.length() - foundLetters;
-                        System.out.println("Il vous reste " + remainingLetters + " lettres à trouver !");
                         lettersAlreadyGuessed.add(letterGuessed);
-                    }
+                        StringBuilder builderHyphen = new StringBuilder(hyphen);
 
+                        for (int i = 0; i < hiddenWord.length(); i++) {
+                            if (letterGuessed.equals(String.valueOf(hiddenWord.charAt(i)))) {
+                                builderHyphen.setCharAt(i, letterGuessed.charAt(0));
+                                hyphen = builderHyphen.toString();
+                            }
+                        }
+
+                    }
                 } else if (letterGuessed.matches("[A-Z]")) {
                     System.out.println("Il n'y a aucune lettre majuscule.");
-
                 } else {
                     System.out.println(letterGuessed + " n'est pas une lettre de l'alphabet latin.");
                 }
@@ -71,11 +76,11 @@ public class Main {
             }
         }
 
-        if (foundLetters == hiddenWord.length()) {
-            System.out.println("Bravo " + prenom + " tu as gagné !");
-        } else if (life == 0) {
+        if (hyphen.contains("-") && life == 0) {
             System.out.println("Tu as perdu, " + prenom + ". Le mot mystère était " + hiddenWord + " !");
             System.out.println("Tu feras mieux la prochaine fois.");
+        } else {
+            System.out.println("Bravo " + prenom + " tu as gagné !\nLe mot était effectivement " + hiddenWord + " !");
         }
     }
 
