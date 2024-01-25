@@ -1,5 +1,3 @@
-// Bug : la même lettre peut être appelée plusieurs fois et peut permettre de faire remporter la victoire
-
 // À implémenter :
 //         - si une même lettre est présente plusieurs fois, il faut l'activer plusieurs fois
 //         - appeler le mot caché à chaque fois, et à chaque découverte de lettre, la mettre plusieurs fois
@@ -32,6 +30,7 @@ public class Main {
         int life = 10;
         int foundLetters = 0;
         int remainingLetters;
+        List<String> lettersAlreadyGuessed = new ArrayList<>();
 
         while (life > 0 && foundLetters < hiddenWord.length()) {
             Scanner scanner = new Scanner(System.in);
@@ -45,9 +44,7 @@ public class Main {
             System.out.println("Entrez une lettre : ");
             String letterGuessed = scanner.nextLine();
 
-            HashSet<String> lettersAlreadyGuessed = new HashSet<>();
-
-            if (lettersAlreadyGuessed.add(letterGuessed)) {
+            if (lettersAlreadyGuessed.contains(letterGuessed) == false) {
                 if (letterGuessed.matches("[a-z]")) {
                     int verificationGuessedLetter = hiddenWord.indexOf(letterGuessed);
 
